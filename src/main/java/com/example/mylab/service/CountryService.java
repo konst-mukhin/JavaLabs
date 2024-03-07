@@ -5,14 +5,19 @@ import com.example.mylab.model.CountryModel;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
+
 @Service
 public class CountryService {
-    private static final String Url = "https://restcountries.com/v3.1/name/%s?fields=capital";
+    private static final String url = "https://restcountries.com/v3.1/name/{countryName}?fields=capital";
     public CountryModel getCountryInfo(String countryName) {
-        String restCountriesUrl = String.format(Url, countryName);
+        HashMap<String, String> parameters = new HashMap<String, String>();
+        parameters.put("countryName", countryName);
+
         CapitalContainer[] capitalContainers = new RestTemplate().getForEntity(
-                                                   restCountriesUrl,
-                                                   CapitalContainer[].class).getBody();
+                                                   url,
+                                                   CapitalContainer[].class,
+                                                   parameters).getBody();
 
         return (capitalContainers != null) ?
                 new CountryModel(countryName, capitalContainers[0].getCapital()[0]) :
