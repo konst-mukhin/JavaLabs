@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/country")
 @RestController
 public class CountryController {
-    @Autowired
     private CountryService countryService;
 
     @PostMapping("/create")
@@ -35,10 +34,10 @@ public class CountryController {
         return countryService.getAllCountries();
     }
     
-    @GetMapping("/{country_id}")
-    public Optional<CountryModel> getCountryById(@PathVariable Integer country_id)
+    @GetMapping("/{countryId}")
+    public Optional<CountryModel> getCountryById(@PathVariable Integer countryId)
     {
-        return countryService.getCountryById(country_id);
+        return countryService.getCountryById(countryId);
     }
     
     @DeleteMapping("/all")
@@ -47,13 +46,13 @@ public class CountryController {
         return "ops-s-s";
     }
 
-    @DeleteMapping("/{country_id}")
-    public void deleteCountry(@PathVariable Integer country_id) {
-        countryService.deleteCountry(country_id);
+    @DeleteMapping("/{countryId}")
+    public void deleteCountry(@PathVariable Integer countryId) {
+        countryService.deleteCountry(countryId);
     }
 
-    @PutMapping("/{country_id}")
-    public CountryModel updateCountry(@PathVariable Integer country_id, @RequestBody CountryModel countryDetails) {
-        return countryService.updateCountry(country_id, countryDetails);
+    @PutMapping("/{countryId}")
+    public CountryModel updateCountry(@PathVariable Integer countryId, @RequestBody CountryModel countryDetails) {
+        return countryService.updateCountry(countryId, countryDetails);
     }
 }

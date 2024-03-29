@@ -20,7 +20,6 @@ import com.example.lab2vscode.service.RegionService;
 @RequestMapping("/region")
 @RestController
 public class RegionController {
-     @Autowired
     private RegionService regionService;
 
     @PostMapping("/create")
@@ -33,10 +32,10 @@ public class RegionController {
         return regionService.getAllRegions();
     }
     
-    @GetMapping("/{region_id}")
-    public Optional<RegionModel> getRegionById(@PathVariable Integer region_id)
+    @GetMapping("/{regionId}")
+    public Optional<RegionModel> getRegionById(@PathVariable Integer regionId)
     {
-        return regionService.getRegionById(region_id);
+        return regionService.getRegionById(regionId);
     }
     
     @DeleteMapping("/all")
@@ -45,13 +44,13 @@ public class RegionController {
         return "pusto";
     }
 
-    @DeleteMapping("/{region_id}")
-    public void deleteRegion(@PathVariable Integer region_id) {
-        regionService.deleteRegion(region_id);
+    @DeleteMapping("/{regionId}")
+    public void deleteRegion(@PathVariable Integer regionId) {
+        regionService.deleteRegion(regionId);
     }
 
-    @PutMapping("/{region_id}")
-    public RegionModel updateRegion(@PathVariable Integer region_id, @RequestBody RegionModel regionDetails) {
-        return regionService.updateRegion(region_id, regionDetails);
+    @PutMapping("/{regionId}")
+    public RegionModel updateRegion(@PathVariable Integer regionId, @RequestBody RegionModel regionDetails) {
+        return regionService.updateRegion(regionId, regionDetails);
     }
 }

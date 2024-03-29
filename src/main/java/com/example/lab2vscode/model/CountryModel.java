@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CountryModel {
     @Id
-    private Integer country_id;
+    private Integer countryId;
 
     private String name;
     private String capital;
@@ -30,15 +30,15 @@ public class CountryModel {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "country_language",
     joinColumns = {
-            @JoinColumn(name = "ctr_id", referencedColumnName = "country_id")
+            @JoinColumn(name = "ctrId", referencedColumnName = "countryId")
     },
     inverseJoinColumns = {
-            @JoinColumn(name = "lang_id", referencedColumnName = "language_id")
+            @JoinColumn(name = "langId", referencedColumnName = "languageId")
     }
     )
     private List<LanguageModel> languages;
 
     @ManyToOne
-    @JoinColumn(name = "region_id")
+    @JoinColumn(name = "regionId")
     private RegionModel region;
 }

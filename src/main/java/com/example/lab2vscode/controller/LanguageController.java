@@ -20,7 +20,6 @@ import com.example.lab2vscode.service.LanguageService;
 @RequestMapping("/language")
 @RestController
 public class LanguageController {
-    @Autowired
     private LanguageService languageService;
 
     @PostMapping("/create")
@@ -33,10 +32,10 @@ public class LanguageController {
         return languageService.getAllLanguages();
     }
     
-    @GetMapping("/{language_id}")
-    public Optional<LanguageModel> getLanguageById(@PathVariable Integer language_id)
+    @GetMapping("/{languageId}")
+    public Optional<LanguageModel> getLanguageById(@PathVariable Integer languageId)
     {
-        return languageService.getLanguageById(language_id);
+        return languageService.getLanguageById(languageId);
     }
     
     @DeleteMapping("/all")
@@ -45,14 +44,14 @@ public class LanguageController {
         return "nothing :(";
     }
 
-    @DeleteMapping("/{language_id}")
-    public void deleteLanguage(@PathVariable Integer language_id) {
-        languageService.deleteLanguage(language_id);
+    @DeleteMapping("/{languageId}")
+    public void deleteLanguage(@PathVariable Integer languageId) {
+        languageService.deleteLanguage(languageId);
     }
 
-    @PutMapping("/{language_id}")
-    public LanguageModel updateLanguage(@PathVariable Integer language_id, @RequestBody LanguageModel languageDetails) {
-        return languageService.updateLanguage(language_id, languageDetails);
+    @PutMapping("/{languageId}")
+    public LanguageModel updateLanguage(@PathVariable Integer languageId, @RequestBody LanguageModel languageDetails) {
+        return languageService.updateLanguage(languageId, languageDetails);
     }
 
 }

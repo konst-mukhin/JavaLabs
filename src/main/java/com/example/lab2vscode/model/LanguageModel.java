@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LanguageModel {
     @Id
-    private Integer language_id;
+    private Integer languageId;
 
     private String name;
 

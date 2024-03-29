@@ -25,8 +25,8 @@ public class RegionService {
     }
 
     @SuppressWarnings("null")
-    public Optional<RegionModel> getRegionById(Integer region_id) {
-        return regionRepository.findById(region_id);
+    public Optional<RegionModel> getRegionById(Integer regionId) {
+        return regionRepository.findById(regionId);
     }
 
     public void deleteAllRegions() {
@@ -34,13 +34,13 @@ public class RegionService {
     }
 
     @SuppressWarnings("null")
-    public void deleteRegion(Integer region_id) {
-        regionRepository.deleteById(region_id);
+    public void deleteRegion(Integer regionId) {
+        regionRepository.deleteById(regionId);
     }
 
-    public RegionModel updateRegion(Integer region_id , RegionModel regionDetails) {
+    public RegionModel updateRegion(Integer regionId , RegionModel regionDetails) {
         @SuppressWarnings("null")
-        Optional<RegionModel> region = regionRepository.findById(region_id);
+        Optional<RegionModel> region = regionRepository.findById(regionId);
         if (region.isPresent()) {
             RegionModel existingRegion = region.get();
             existingRegion.setName(regionDetails.getName());

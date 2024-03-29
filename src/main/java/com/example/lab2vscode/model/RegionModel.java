@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegionModel {
     @Id
-    private Integer region_id;
+    private Integer regionId;
 
     private String name;
 

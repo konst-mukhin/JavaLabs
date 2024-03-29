@@ -25,8 +25,8 @@ public class LanguageService {
     }
 
     @SuppressWarnings("null")
-    public Optional<LanguageModel> getLanguageById(Integer language_id) {
-        return languageRepository.findById(language_id);
+    public Optional<LanguageModel> getLanguageById(Integer languageId) {
+        return languageRepository.findById(languageId);
     }
 
     public void deleteAllLanguages() {
@@ -34,13 +34,13 @@ public class LanguageService {
     }
 
     @SuppressWarnings("null")
-    public void deleteLanguage(Integer language_id) {
-        languageRepository.deleteById(language_id);
+    public void deleteLanguage(Integer languageId) {
+        languageRepository.deleteById(languageId);
     }
 
-    public LanguageModel updateLanguage(Integer language_id , LanguageModel languageDetails) {
+    public LanguageModel updateLanguage(Integer languageId , LanguageModel languageDetails) {
         @SuppressWarnings("null")
-        Optional<LanguageModel> language = languageRepository.findById(language_id);
+        Optional<LanguageModel> language = languageRepository.findById(languageId);
         if (language.isPresent()) {
             LanguageModel existingLanguage = language.get();
             existingLanguage.setName(languageDetails.getName());

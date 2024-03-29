@@ -25,8 +25,8 @@ public class CountryService {
     }
 
     @SuppressWarnings("null")
-    public Optional<CountryModel> getCountryById(Integer country_id) {
-        return countryRepository.findById(country_id);
+    public Optional<CountryModel> getCountryById(Integer countryId) {
+        return countryRepository.findById(countryId);
     }
 
     public void deleteAllCountries() {
@@ -34,13 +34,13 @@ public class CountryService {
     }
 
     @SuppressWarnings("null")
-    public void deleteCountry(Integer country_id) {
-        countryRepository.deleteById(country_id);
+    public void deleteCountry(Integer countryId) {
+        countryRepository.deleteById(countryId);
     }
 
-    public CountryModel updateCountry(Integer country_id, CountryModel countryDetails) {
+    public CountryModel updateCountry(Integer countryId, CountryModel countryDetails) {
         @SuppressWarnings("null")
-        Optional<CountryModel> country = countryRepository.findById(country_id);
+        Optional<CountryModel> country = countryRepository.findById(countryId);
         if (country.isPresent()) {
             CountryModel existingCountry = country.get();
             existingCountry.setName(countryDetails.getName());
