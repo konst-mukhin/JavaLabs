@@ -3,7 +3,7 @@ package com.example.lab2vscode.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.lab2vscode.model.CountryModel;
+import com.example.lab2vscode.model.Country;
 import com.example.lab2vscode.service.CountryService;
 
 import java.util.List;
@@ -26,17 +26,17 @@ public class CountryController {
     private CountryService countryService;
 
     @PostMapping("/create")
-    public CountryModel createCountry(@Validated @RequestBody CountryModel countryModel) {
+    public Country createCountry(@Validated @RequestBody Country countryModel) {
         return countryService.createCountry(countryModel);
     }
 
     @GetMapping("/all")
-    public List<CountryModel> getAllCountries() {
+    public List<Country> getAllCountries() {
         return countryService.getAllCountries();
     }
     
     @GetMapping("/{countryId}")
-    public Optional<CountryModel> getCountryById(@PathVariable Integer countryId)
+    public Optional<Country> getCountryById(@PathVariable Integer countryId)
     {
         return countryService.getCountryById(countryId);
     }
@@ -53,7 +53,7 @@ public class CountryController {
     }
 
     @PutMapping("/{countryId}")
-    public CountryModel updateCountry(@PathVariable Integer countryId, @RequestBody CountryModel countryDetails) {
+    public Country updateCountry(@PathVariable Integer countryId, @RequestBody Country countryDetails) {
         return countryService.updateCountry(countryId, countryDetails);
     }
 }

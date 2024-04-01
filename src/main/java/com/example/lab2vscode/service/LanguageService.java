@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.lab2vscode.model.LanguageModel;
+import com.example.lab2vscode.model.Language;
 import com.example.lab2vscode.repository.LanguageRepository;
 
 import lombok.AllArgsConstructor;
@@ -16,16 +16,16 @@ public class LanguageService {
     private LanguageRepository languageRepository;
 
     @SuppressWarnings("null")
-    public LanguageModel createLanguage(LanguageModel languageModel) {
+    public Language createLanguage(Language languageModel) {
         return languageRepository.save(languageModel);
     }
 
-    public List<LanguageModel> getAllLanguages() {
+    public List<Language> getAllLanguages() {
         return languageRepository.findAll();
     }
 
     @SuppressWarnings("null")
-    public Optional<LanguageModel> getLanguageById(Integer languageId) {
+    public Optional<Language> getLanguageById(Integer languageId) {
         return languageRepository.findById(languageId);
     }
 
@@ -38,11 +38,11 @@ public class LanguageService {
         languageRepository.deleteById(languageId);
     }
 
-    public LanguageModel updateLanguage(Integer languageId , LanguageModel languageDetails) {
+    public Language updateLanguage(Integer languageId , Language languageDetails) {
         @SuppressWarnings("null")
-        Optional<LanguageModel> language = languageRepository.findById(languageId);
+        Optional<Language> language = languageRepository.findById(languageId);
         if (language.isPresent()) {
-            LanguageModel existingLanguage = language.get();
+            Language existingLanguage = language.get();
             existingLanguage.setName(languageDetails.getName());
             return languageRepository.save(existingLanguage);
         }

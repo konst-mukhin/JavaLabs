@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.lab2vscode.model.CountryModel;
+import com.example.lab2vscode.model.Country;
 import com.example.lab2vscode.repository.CountryRepository;
 
 import lombok.AllArgsConstructor;
@@ -16,16 +16,16 @@ public class CountryService {
     private CountryRepository countryRepository;
     
     @SuppressWarnings("null")
-    public CountryModel createCountry(CountryModel countryModel) {
+    public Country createCountry(Country countryModel) {
         return countryRepository.save(countryModel);
     }
 
-    public List<CountryModel> getAllCountries() {
+    public List<Country> getAllCountries() {
         return countryRepository.findAll();
     }
 
     @SuppressWarnings("null")
-    public Optional<CountryModel> getCountryById(Integer countryId) {
+    public Optional<Country> getCountryById(Integer countryId) {
         return countryRepository.findById(countryId);
     }
 
@@ -38,11 +38,11 @@ public class CountryService {
         countryRepository.deleteById(countryId);
     }
 
-    public CountryModel updateCountry(Integer countryId, CountryModel countryDetails) {
+    public Country updateCountry(Integer countryId, Country countryDetails) {
         @SuppressWarnings("null")
-        Optional<CountryModel> country = countryRepository.findById(countryId);
+        Optional<Country> country = countryRepository.findById(countryId);
         if (country.isPresent()) {
-            CountryModel existingCountry = country.get();
+            Country existingCountry = country.get();
             existingCountry.setName(countryDetails.getName());
             existingCountry.setCapital(countryDetails.getCapital());
             existingCountry.setPopulation(countryDetails.getPopulation());

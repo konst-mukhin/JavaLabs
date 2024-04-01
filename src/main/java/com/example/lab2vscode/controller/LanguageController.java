@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.lab2vscode.model.LanguageModel;
+import com.example.lab2vscode.model.Language;
 import com.example.lab2vscode.service.LanguageService;
 
 @RequestMapping("/language")
@@ -24,17 +24,17 @@ public class LanguageController {
     private LanguageService languageService;
 
     @PostMapping("/create")
-    public LanguageModel createLanguage(@Validated @RequestBody LanguageModel languageModel) {
+    public Language createLanguage(@Validated @RequestBody Language languageModel) {
         return languageService.createLanguage(languageModel);
     }
 
     @GetMapping("/all")
-    public List<LanguageModel> getAllLanguages() {
+    public List<Language> getAllLanguages() {
         return languageService.getAllLanguages();
     }
     
     @GetMapping("/{languageId}")
-    public Optional<LanguageModel> getLanguageById(@PathVariable Integer languageId)
+    public Optional<Language> getLanguageById(@PathVariable Integer languageId)
     {
         return languageService.getLanguageById(languageId);
     }
@@ -51,7 +51,7 @@ public class LanguageController {
     }
 
     @PutMapping("/{languageId}")
-    public LanguageModel updateLanguage(@PathVariable Integer languageId, @RequestBody LanguageModel languageDetails) {
+    public Language updateLanguage(@PathVariable Integer languageId, @RequestBody Language languageDetails) {
         return languageService.updateLanguage(languageId, languageDetails);
     }
 

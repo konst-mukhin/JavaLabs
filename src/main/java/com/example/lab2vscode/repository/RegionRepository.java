@@ -2,6 +2,6 @@ package com.example.lab2vscode.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.lab2vscode.model.RegionModel;
+import com.example.lab2vscode.model.Region;
 
-public interface RegionRepository extends JpaRepository<RegionModel, Integer>{ }
+public interface RegionRepository extends JpaRepository<Region, Integer>{ }

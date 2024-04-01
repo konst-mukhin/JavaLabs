@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.lab2vscode.model.RegionModel;
+import com.example.lab2vscode.model.Region;
 import com.example.lab2vscode.repository.RegionRepository;
 
 import lombok.AllArgsConstructor;
@@ -16,16 +16,16 @@ public class RegionService {
     private RegionRepository regionRepository;
 
     @SuppressWarnings("null")
-    public RegionModel createRegion(RegionModel regionModel) {
+    public Region createRegion(Region regionModel) {
         return regionRepository.save(regionModel);
     }
 
-    public List<RegionModel> getAllRegions() {
+    public List<Region> getAllRegions() {
         return regionRepository.findAll();
     }
 
     @SuppressWarnings("null")
-    public Optional<RegionModel> getRegionById(Integer regionId) {
+    public Optional<Region> getRegionById(Integer regionId) {
         return regionRepository.findById(regionId);
     }
 
@@ -38,11 +38,11 @@ public class RegionService {
         regionRepository.deleteById(regionId);
     }
 
-    public RegionModel updateRegion(Integer regionId , RegionModel regionDetails) {
+    public Region updateRegion(Integer regionId , Region regionDetails) {
         @SuppressWarnings("null")
-        Optional<RegionModel> region = regionRepository.findById(regionId);
+        Optional<Region> region = regionRepository.findById(regionId);
         if (region.isPresent()) {
-            RegionModel existingRegion = region.get();
+            Region existingRegion = region.get();
             existingRegion.setName(regionDetails.getName());
             return regionRepository.save(existingRegion);
         }

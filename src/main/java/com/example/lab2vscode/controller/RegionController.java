@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.lab2vscode.model.RegionModel;
+import com.example.lab2vscode.model.Region;
 import com.example.lab2vscode.service.RegionService;
 
 @RequestMapping("/region")
@@ -24,17 +24,17 @@ public class RegionController {
     private RegionService regionService;
 
     @PostMapping("/create")
-    public RegionModel createRegion(@Validated @RequestBody RegionModel regionModel) {
+    public Region createRegion(@Validated @RequestBody Region regionModel) {
         return regionService.createRegion(regionModel);
     }
 
     @GetMapping("/all")
-    public List<RegionModel> getAllRegions() {
+    public List<Region> getAllRegions() {
         return regionService.getAllRegions();
     }
     
     @GetMapping("/{regionId}")
-    public Optional<RegionModel> getRegionById(@PathVariable Integer regionId)
+    public Optional<Region> getRegionById(@PathVariable Integer regionId)
     {
         return regionService.getRegionById(regionId);
     }
@@ -51,7 +51,7 @@ public class RegionController {
     }
 
     @PutMapping("/{regionId}")
-    public RegionModel updateRegion(@PathVariable Integer regionId, @RequestBody RegionModel regionDetails) {
+    public Region updateRegion(@PathVariable Integer regionId, @RequestBody Region regionDetails) {
         return regionService.updateRegion(regionId, regionDetails);
     }
 }
