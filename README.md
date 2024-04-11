@@ -6,7 +6,6 @@
 - PostgreSQL
 ## Installation
 ### You need to install the following
-- VSCode
 - JDK
 - PostgreSQL
 - Add dependencies and exetensions
