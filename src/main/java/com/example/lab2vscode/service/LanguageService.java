@@ -40,7 +40,10 @@ public class LanguageService {
 
     public void deleteLanguageFromCountry(Integer countryId, Integer languageId) {
         Optional<Country> country = countryRepository.findById(countryId);
-        country.get().removeLanguage(languageId);
+        if(country.isPresent())
+        {
+            country.get().removeLanguage(languageId);
+        }
         countryRepository.save(country.get());
       } 
 
