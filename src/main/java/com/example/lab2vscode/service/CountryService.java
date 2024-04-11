@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 public class CountryService {
     private CountryRepository countryRepository;
     
-    @SuppressWarnings("null")
     public Country createCountry(Country countryModel) {
         return countryRepository.save(countryModel);
     }
@@ -24,7 +23,6 @@ public class CountryService {
         return countryRepository.findAll();
     }
 
-    @SuppressWarnings("null")
     public Optional<Country> getCountryById(Integer countryId) {
         return countryRepository.findById(countryId);
     }
@@ -33,13 +31,11 @@ public class CountryService {
         countryRepository.deleteAll();
     }
 
-    @SuppressWarnings("null")
     public void deleteCountry(Integer countryId) {
         countryRepository.deleteById(countryId);
     }
 
     public Country updateCountry(Integer countryId, Country countryDetails) {
-        @SuppressWarnings("null")
         Optional<Country> country = countryRepository.findById(countryId);
         if (country.isPresent()) {
             Country existingCountry = country.get();

@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 public class RegionService {
     private RegionRepository regionRepository;
 
-    @SuppressWarnings("null")
     public Region createRegion(Region regionModel) {
         return regionRepository.save(regionModel);
     }
@@ -24,7 +23,6 @@ public class RegionService {
         return regionRepository.findAll();
     }
 
-    @SuppressWarnings("null")
     public Optional<Region> getRegionById(Integer regionId) {
         return regionRepository.findById(regionId);
     }
@@ -33,13 +31,11 @@ public class RegionService {
         regionRepository.deleteAll();
     }
 
-    @SuppressWarnings("null")
     public void deleteRegion(Integer regionId) {
         regionRepository.deleteById(regionId);
     }
 
     public Region updateRegion(Integer regionId , Region regionDetails) {
-        @SuppressWarnings("null")
         Optional<Region> region = regionRepository.findById(regionId);
         if (region.isPresent()) {
             Region existingRegion = region.get();

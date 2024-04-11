@@ -2,6 +2,7 @@ package com.example.lab2vscode.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -27,7 +28,7 @@ public class Country {
     private String capital;
     private Integer population;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST}, fetch = FetchType.LAZY)
     @JoinTable(name = "country_language",
     joinColumns = {
             @JoinColumn(name = "ctrId", referencedColumnName = "countryId")
@@ -41,4 +42,12 @@ public class Country {
     @ManyToOne
     @JoinColumn(name = "regionId")
     private Region region;
+
+    public void removeLanguage(Integer languageId) {
+        Language language = this.languages.stream().filter(t -> t.getLanguageId() == languageId).findFirst().orElse(null);
+        if (language != null) {
+          this.languages.remove(language);
+          language.getCountries().remove(this);
+        }
+    }
 }

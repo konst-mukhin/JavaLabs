@@ -5,13 +5,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.lab2vscode.model.Country;
 import com.example.lab2vscode.service.CountryService;
+import com.example.lab2vscode.service.LanguageService;
 
 import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,9 +25,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 @AllArgsConstructor
 public class CountryController {
     private CountryService countryService;
+    private LanguageService languageService;
 
     @PostMapping("/create")
-    public Country createCountry(@Validated @RequestBody Country countryModel) {
+    public Country createCountry(@RequestBody Country countryModel) {
         return countryService.createCountry(countryModel);
     }
 
@@ -51,6 +52,11 @@ public class CountryController {
     @DeleteMapping("/{countryId}")
     public void deleteCountry(@PathVariable Integer countryId) {
         countryService.deleteCountry(countryId);
+    }
+
+    @DeleteMapping("/{countryId}/language/{languageId}")
+    public void deleteLanguageFromCountry(@PathVariable(value = "countryId") Integer countryId, @PathVariable(value = "languageId") Integer languageId){
+        languageService.deleteLanguageFromCountry(countryId, languageId);
     }
 
     @PutMapping("/{countryId}")

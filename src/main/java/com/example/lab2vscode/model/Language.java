@@ -4,8 +4,8 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -24,7 +24,7 @@ public class Language {
 
     private String name;
 
-    @ManyToMany(mappedBy = "languages", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "languages", cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JsonIgnore
     private Set<Country> countries;
 }
