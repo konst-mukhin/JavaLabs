@@ -43,8 +43,8 @@ public class LanguageService {
         if(country.isPresent())
         {
             country.get().removeLanguage(languageId);
+            countryRepository.save(country.get());
         }
-        countryRepository.save(country.get());
       } 
 
     public Language updateLanguage(Integer languageId , Language languageDetails) {
