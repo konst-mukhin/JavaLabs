@@ -1,6 +1,6 @@
 # "Country-capital"
 ## Description
-"Country-capital" project is a web/REST service whith provides GET, POST, PUT, DELETE requests. All returns in JSON format.
+"Country-capital" project is a web/REST service which provides GET, POST, PUT, DELETE requests. All returns in JSON format.
 ## Technologies
 - Java Spring Boot
 - PostgreSQL
