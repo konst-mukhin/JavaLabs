@@ -5,5 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import com.example.lab2vscode.model.Region;
 
+
 @Repository
-public interface RegionRepository extends JpaRepository<Region, Integer> { }
+public interface RegionRepository extends JpaRepository<Region, Integer> { 
+    void deleteById(Integer regionId);
+}

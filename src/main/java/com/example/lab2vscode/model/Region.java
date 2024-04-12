@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -23,7 +24,7 @@ public class Region {
 
     private String name;
 
-    @OneToMany(mappedBy = "region", orphanRemoval = true)
+    @OneToMany(mappedBy = "region", cascade = CascadeType.MERGE)
     @JsonIgnore
     private Set<Country> countries;
 }
