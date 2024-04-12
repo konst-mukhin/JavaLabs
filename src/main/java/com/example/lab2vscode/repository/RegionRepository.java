@@ -7,6 +7,4 @@ import com.example.lab2vscode.model.Region;
 
 
 @Repository
-public interface RegionRepository extends JpaRepository<Region, Integer> { 
-    void deleteById(Integer regionId);
-}
+public interface RegionRepository extends JpaRepository<Region, Integer> { }

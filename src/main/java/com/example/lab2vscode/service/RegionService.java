@@ -35,17 +35,16 @@ public class RegionService {
     }
 
     public void deleteRegion(Integer regionId) {
-        Optional<Region> region = regionRepository.findById(regionId);
-        if(region.isPresent())
-        {
-            List<Country> countries = region.get().getCountries().stream().toList();
-            for(Country country : countries)
-            {
-                country.setRegion(null);
-                countryRepository.save(country);
-            }
+        // Optional<Region> region = regionRepository.findById(regionId);
+        // if(region.isPresent())
+        // {
+        //     List<Country> countries = region.get().getCountries().stream().toList();
+        //     for(Country country : countries)
+        //     {
+        //         country.setRegion(null);
+        //         countryRepository.save(country);
+        //     }
             regionRepository.deleteById(regionId);
-        }
     }
 
     public Region updateRegion(Integer regionId , Region regionDetails) {
