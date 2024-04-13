@@ -1,21 +1,27 @@
 package com.example.lab2vscode.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.example.lab2vscode.cache.Cache;
+import com.example.lab2vscode.dto.CountryDTO;
 import com.example.lab2vscode.model.Country;
 import com.example.lab2vscode.repository.CountryRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class CountryService {
     private CountryRepository countryRepository;
     private Cache<Integer, Optional<Country>> cache;
+    private ModelMapper modelMapper;
     
     public Country createCountry(Country countryModel) {
         Country country = countryRepository.save(countryModel);
@@ -23,11 +29,12 @@ public class CountryService {
         return country;
     }
 
-    public List<Country> getAllCountries() {
-        return countryRepository.findAll();
+    public List<CountryDTO> getAllCountries() {
+        List<Country> countries = countryRepository.findAll();
+        return Arrays.asList(modelMapper.map(countries, CountryDTO[].class));
     }
 
-    public Optional<Country> getCountryById(Integer countryId) {
+    public CountryDTO getCountryById(Integer countryId) {
         Optional<Country> country;
         if(cache.containsKey(countryId)){
             country = cache.get(countryId);
@@ -36,7 +43,8 @@ public class CountryService {
             country = countryRepository.findById(countryId);
             cache.put(countryId, country);
         }
-        return country;
+        CountryDTO countryDTO = modelMapper.map(country, CountryDTO.class);
+        return countryDTO;
     }
 
     public void deleteAllCountries() {
@@ -55,7 +63,7 @@ public class CountryService {
         countryRepository.deleteRegionFromCountry(countryId);
     }
 
-    public Country updateCountry(Integer countryId, Country countryDetails) {
+    public CountryDTO updateCountry(Integer countryId, Country countryDetails) {
         Optional<Country> country;
         if(cache.containsKey(countryId)){
             country = cache.get(countryId);
@@ -69,7 +77,8 @@ public class CountryService {
             existingCountry.setName(countryDetails.getName());
             existingCountry.setCapital(countryDetails.getCapital());
             existingCountry.setPopulation(countryDetails.getPopulation());
-            return countryRepository.save(existingCountry);
+            countryRepository.save(existingCountry);
+            return modelMapper.map(existingCountry, CountryDTO.class);
         }
         return null;
     }

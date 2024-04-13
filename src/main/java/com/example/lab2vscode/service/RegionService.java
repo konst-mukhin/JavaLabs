@@ -1,11 +1,14 @@
 package com.example.lab2vscode.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.example.lab2vscode.cache.Cache;
+import com.example.lab2vscode.dto.RegionDTO;
 import com.example.lab2vscode.model.Region;
 import com.example.lab2vscode.repository.RegionRepository;
 
@@ -16,6 +19,7 @@ import lombok.AllArgsConstructor;
 public class RegionService {
     private RegionRepository regionRepository;
     private Cache<Integer, Optional<Region>> cache;
+    private ModelMapper modelMapper;
 
 
     public Region createRegion(Region regionModel) {
@@ -24,11 +28,12 @@ public class RegionService {
         return region;
     }
 
-    public List<Region> getAllRegions() {
-        return regionRepository.findAll();
+    public List<RegionDTO> getAllRegions() {
+        List<Region> regions = regionRepository.findAll();
+        return Arrays.asList(modelMapper.map(regions, RegionDTO[].class));
     }
 
-    public Optional<Region> getRegionById(Integer regionId) {
+    public RegionDTO getRegionById(Integer regionId) {
         Optional<Region> region;
         if(cache.containsKey(regionId)){
             region = cache.get(regionId);
@@ -37,7 +42,8 @@ public class RegionService {
             region = regionRepository.findById(regionId);
             cache.put(regionId, region);
         }
-        return region;
+        RegionDTO regionDTO = modelMapper.map(region, RegionDTO.class);
+        return regionDTO;
     }
 
     public void deleteAllRegions() {
@@ -52,7 +58,7 @@ public class RegionService {
         regionRepository.deleteById(regionId);
     }
 
-    public Region updateRegion(Integer regionId , Region regionDetails) {
+    public RegionDTO updateRegion(Integer regionId , Region regionDetails) {
         Optional<Region> region;
         if(cache.containsKey(regionId)){
             region = cache.get(regionId);
@@ -64,7 +70,8 @@ public class RegionService {
         if (region.isPresent()) {
             Region existingRegion = region.get();
             existingRegion.setName(regionDetails.getName());
-            return regionRepository.save(existingRegion);
+            regionRepository.save(existingRegion);
+            return modelMapper.map(existingRegion, RegionDTO.class);
         }
         return null;
     }

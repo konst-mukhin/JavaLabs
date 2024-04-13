@@ -1,7 +1,6 @@
 package com.example.lab2vscode.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.lab2vscode.dto.RegionDTO;
 import com.example.lab2vscode.model.Region;
 import com.example.lab2vscode.service.RegionService;
 
@@ -30,12 +30,12 @@ public class RegionController {
     }
 
     @GetMapping("/all")
-    public List<Region> getAllRegions() {
+    public List<RegionDTO> getAllRegions() {
         return regionService.getAllRegions();
     }
     
     @GetMapping("/{regionId}")
-    public Optional<Region> getRegionById(@PathVariable Integer regionId)
+    public RegionDTO getRegionById(@PathVariable Integer regionId)
     {
         return regionService.getRegionById(regionId);
     }
@@ -52,7 +52,7 @@ public class RegionController {
     }
 
     @PutMapping("/{regionId}")
-    public Region updateRegion(@PathVariable Integer regionId, @RequestBody Region regionDetails) {
+    public RegionDTO updateRegion(@PathVariable Integer regionId, @RequestBody Region regionDetails) {
         return regionService.updateRegion(regionId, regionDetails);
     }
 }

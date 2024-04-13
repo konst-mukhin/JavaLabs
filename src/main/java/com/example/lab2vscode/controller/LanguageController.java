@@ -1,7 +1,6 @@
 package com.example.lab2vscode.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.lab2vscode.dto.LanguageDTO;
 import com.example.lab2vscode.model.Language;
 import com.example.lab2vscode.service.LanguageService;
 
@@ -30,12 +30,12 @@ public class LanguageController {
     }
 
     @GetMapping("/all")
-    public List<Language> getAllLanguages() {
+    public List<LanguageDTO> getAllLanguages() {
         return languageService.getAllLanguages();
     }
     
     @GetMapping("/{languageId}")
-    public Optional<Language> getLanguageById(@PathVariable Integer languageId)
+    public LanguageDTO getLanguageById(@PathVariable Integer languageId)
     {
         return languageService.getLanguageById(languageId);
     }
@@ -52,7 +52,7 @@ public class LanguageController {
     }
 
     @PutMapping("/{languageId}")
-    public Language updateLanguage(@PathVariable Integer languageId, @RequestBody Language languageDetails) {
+    public LanguageDTO updateLanguage(@PathVariable Integer languageId, @RequestBody Language languageDetails) {
         return languageService.updateLanguage(languageId, languageDetails);
     }
 
