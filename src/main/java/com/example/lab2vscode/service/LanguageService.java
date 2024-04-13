@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.lab2vscode.cache.Cache;
 import com.example.lab2vscode.model.Country;
 import com.example.lab2vscode.model.Language;
 import com.example.lab2vscode.repository.CountryRepository;
@@ -17,9 +18,12 @@ import lombok.AllArgsConstructor;
 public class LanguageService {
     private LanguageRepository languageRepository;
     private CountryRepository countryRepository;
+    private Cache<Integer, Optional<Language>> cache;
 
     public Language createLanguage(Language languageModel) {
-        return languageRepository.save(languageModel);
+        Language language = languageRepository.save(languageModel);
+        cache.put(language.getLanguageId(), Optional.of(language));
+        return language;
     }
 
     public List<Language> getAllLanguages() {
@@ -27,14 +31,26 @@ public class LanguageService {
     }
 
     public Optional<Language> getLanguageById(Integer languageId) {
-        return languageRepository.findById(languageId);
+        Optional<Language> language;
+        if(cache.containsKey(languageId)){
+            language = cache.get(languageId);
+        }
+        else{
+            language = languageRepository.findById(languageId);
+            cache.put(languageId, language);
+        }
+        return language;
     }
 
     public void deleteAllLanguages() {
+        cache.clear();
         languageRepository.deleteAll();
     }
 
     public void deleteLanguage(Integer languageId) {
+        if(cache.containsKey(languageId)){
+            cache.remove(languageId);
+        }
         languageRepository.deleteById(languageId);
     }
 
@@ -48,7 +64,14 @@ public class LanguageService {
       } 
 
     public Language updateLanguage(Integer languageId , Language languageDetails) {
-        Optional<Language> language = languageRepository.findById(languageId);
+        Optional<Language> language;
+        if(cache.containsKey(languageId)){
+            language = cache.get(languageId);
+        }
+        else{
+            language = languageRepository.findById(languageId);
+            cache.put(languageId, language);
+        }
         if (language.isPresent()) {
             Language existingLanguage = language.get();
             existingLanguage.setName(languageDetails.getName());

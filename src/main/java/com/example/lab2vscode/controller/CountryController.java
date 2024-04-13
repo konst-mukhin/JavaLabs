@@ -63,4 +63,9 @@ public class CountryController {
     public Country updateCountry(@PathVariable Integer countryId, @RequestBody Country countryDetails) {
         return countryService.updateCountry(countryId, countryDetails);
     }
+
+    @PutMapping("/region/{countryId}")
+    public void deleteRegion(@PathVariable Integer countryId){
+        countryService.deleteRegionFromCountry(countryId);
+    }
 }
