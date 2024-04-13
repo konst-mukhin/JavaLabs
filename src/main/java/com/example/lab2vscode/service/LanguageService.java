@@ -44,8 +44,7 @@ public class LanguageService {
             language = languageRepository.findById(languageId);
             cache.put(languageId, language);
         }
-        LanguageDTO languageDTO = modelMapper.map(language, LanguageDTO.class);
-        return languageDTO;
+        return modelMapper.map(language, LanguageDTO.class);
     }
 
     public void deleteAllLanguages() {

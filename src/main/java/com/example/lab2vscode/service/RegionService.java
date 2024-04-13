@@ -42,8 +42,7 @@ public class RegionService {
             region = regionRepository.findById(regionId);
             cache.put(regionId, region);
         }
-        RegionDTO regionDTO = modelMapper.map(region, RegionDTO.class);
-        return regionDTO;
+        return modelMapper.map(region, RegionDTO.class);
     }
 
     public void deleteAllRegions() {

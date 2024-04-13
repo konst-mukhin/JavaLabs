@@ -43,8 +43,7 @@ public class CountryService {
             country = countryRepository.findById(countryId);
             cache.put(countryId, country);
         }
-        CountryDTO countryDTO = modelMapper.map(country, CountryDTO.class);
-        return countryDTO;
+        return modelMapper.map(country, CountryDTO.class);
     }
 
     public void deleteAllCountries() {
