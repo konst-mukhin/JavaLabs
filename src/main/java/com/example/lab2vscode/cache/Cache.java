@@ -7,25 +7,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class Cache<K, V> {
 
-    HashMap<K, V> cache = new HashMap<>();
+    HashMap<K, V> newCache = new HashMap<>();
 
     public void put(K key, V value){
-        cache.put(key, value);
+        newCache.put(key, value);
     }
 
     public void remove(K key){
-        cache.remove(key);
+        newCache.remove(key);
     }
 
     public V get(K key){
-        return cache.get(key);
+        return newCache.get(key);
     }
 
     public boolean containsKey(K key){ 
-        return cache.containsKey(key);
+        return newCache.containsKey(key);
     }
 
     public void clear(){
-        cache.clear();
+        newCache.clear();
     }
 }
