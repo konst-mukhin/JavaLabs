@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class Cache<K, V> {
-    static int MAX_SIZE = 100;
+    static int maxSize = 100;
     HashMap<K, V> newCache = new HashMap<>();
 
     public void put(K key, V value){
-        if(newCache.size() >= MAX_SIZE){
+        if(newCache.size() >= maxSize){
             newCache.clear();
         }
         newCache.put(key, value);
