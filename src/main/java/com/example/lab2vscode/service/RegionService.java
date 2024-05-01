@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.lab2vscode.cache.Cache;
 import com.example.lab2vscode.dto.RegionDTO;
+import com.example.lab2vscode.exceptions.BadRequestException;
+import com.example.lab2vscode.exceptions.NotFoundException;
+import com.example.lab2vscode.exceptions.ServerException;
 import com.example.lab2vscode.model.Region;
 import com.example.lab2vscode.repository.RegionRepository;
 
@@ -22,18 +25,24 @@ public class RegionService {
     private ModelMapper modelMapper;
 
 
-    public Region createRegion(Region regionModel) {
+    public Region createRegion(Region regionModel) throws ServerException {
+        if(regionRepository.findById(regionModel.getRegionId()).isPresent()){
+            throw new ServerException("Change id");
+        }
         Region region = regionRepository.save(regionModel);
         cache.put(region.getRegionId(), Optional.of(region));
         return region;
     }
 
-    public List<RegionDTO> getAllRegions() {
+    public List<RegionDTO> getAllRegions() throws NotFoundException {
         List<Region> regions = regionRepository.findAll();
+        if(regions.isEmpty()){
+            throw new NotFoundException("Regions list is empty");
+        }
         return Arrays.asList(modelMapper.map(regions, RegionDTO[].class));
     }
 
-    public RegionDTO getRegionById(Integer regionId) {
+    public RegionDTO getRegionById(Integer regionId) throws NotFoundException {
         Optional<Region> region;
         if(cache.containsKey(regionId)){
             region = cache.get(regionId);
@@ -41,6 +50,9 @@ public class RegionService {
         else{
             region = regionRepository.findById(regionId);
             cache.put(regionId, region);
+        }
+        if(region.isEmpty()){
+            throw new NotFoundException("No region with this id");
         }
         return modelMapper.map(region, RegionDTO.class);
     }
@@ -50,14 +62,17 @@ public class RegionService {
         regionRepository.deleteAll();
     }
 
-    public void deleteRegion(Integer regionId) {
+    public void deleteRegion(Integer regionId) throws BadRequestException {
+        if(regionRepository.findById(regionId).isEmpty()){
+            throw new BadRequestException("Wrong id");
+        }
         if(cache.containsKey(regionId)){
             cache.remove(regionId);
         }
         regionRepository.deleteById(regionId);
     }
 
-    public RegionDTO updateRegion(Integer regionId , Region regionDetails) {
+    public RegionDTO updateRegion(Integer regionId , Region regionDetails) throws BadRequestException {
         Optional<Region> region;
         if(cache.containsKey(regionId)){
             region = cache.get(regionId);
@@ -65,6 +80,9 @@ public class RegionService {
         else{
             region = regionRepository.findById(regionId);
             cache.put(regionId, region);
+        }
+        if(region.isEmpty()){
+            throw new BadRequestException("Region is empty");
         }
         if (region.isPresent()) {
             Region existingRegion = region.get();

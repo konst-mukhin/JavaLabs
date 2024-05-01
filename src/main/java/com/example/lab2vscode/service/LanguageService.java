@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.example.lab2vscode.cache.Cache;
 import com.example.lab2vscode.dto.LanguageDTO;
+import com.example.lab2vscode.exceptions.BadRequestException;
+import com.example.lab2vscode.exceptions.NotFoundException;
+import com.example.lab2vscode.exceptions.ServerException;
 import com.example.lab2vscode.model.Country;
 import com.example.lab2vscode.model.Language;
 import com.example.lab2vscode.repository.CountryRepository;
@@ -24,18 +27,24 @@ public class LanguageService {
     private Cache<Integer, Optional<Language>> cache;
     private ModelMapper modelMapper;
 
-    public Language createLanguage(Language languageModel) {
+    public Language createLanguage(Language languageModel) throws ServerException {
+        if(languageRepository.findById(languageModel.getLanguageId()).isPresent()){
+            throw new ServerException("Change id");
+        }
         Language language = languageRepository.save(languageModel);
         cache.put(language.getLanguageId(), Optional.of(language));
         return language;
     }
 
-    public List<LanguageDTO> getAllLanguages() {
+    public List<LanguageDTO> getAllLanguages() throws NotFoundException {
         List<Language> languages = languageRepository.findAll();
+        if(languages.isEmpty()){
+            throw new NotFoundException("Languages list is empty");
+        }
         return Arrays.asList(modelMapper.map(languages, LanguageDTO[].class));
     }
 
-    public LanguageDTO getLanguageById(Integer languageId) {
+    public LanguageDTO getLanguageById(Integer languageId) throws NotFoundException {
         Optional<Language> language;
         if(cache.containsKey(languageId)){
             language = cache.get(languageId);
@@ -43,6 +52,9 @@ public class LanguageService {
         else{
             language = languageRepository.findById(languageId);
             cache.put(languageId, language);
+        }
+        if(language.isEmpty()){
+            throw new NotFoundException("No language with this id");
         }
         return modelMapper.map(language, LanguageDTO.class);
     }
@@ -52,14 +64,23 @@ public class LanguageService {
         languageRepository.deleteAll();
     }
 
-    public void deleteLanguage(Integer languageId) {
+    public void deleteLanguage(Integer languageId) throws BadRequestException {
+        if(languageRepository.findById(languageId).isEmpty()){
+            throw new BadRequestException("Wrong id");
+        }
         if(cache.containsKey(languageId)){
             cache.remove(languageId);
         }
         languageRepository.deleteById(languageId);
     }
 
-    public void deleteLanguageFromCountry(Integer countryId, Integer languageId) {
+    public void deleteLanguageFromCountry(Integer countryId, Integer languageId) throws BadRequestException {
+        if(countryRepository.findById(countryId).isEmpty()){
+            throw new BadRequestException("Wrong country id");
+        }
+        if(languageRepository.findById(languageId).isEmpty()){
+            throw new BadRequestException("Wrong language id");
+        }
         Optional<Country> country = countryRepository.findById(countryId);
         if(country.isPresent())
         {
@@ -68,7 +89,7 @@ public class LanguageService {
         }
       } 
 
-    public LanguageDTO updateLanguage(Integer languageId , Language languageDetails) {
+    public LanguageDTO updateLanguage(Integer languageId , Language languageDetails) throws BadRequestException {
         Optional<Language> language;
         if(cache.containsKey(languageId)){
             language = cache.get(languageId);
@@ -76,6 +97,9 @@ public class LanguageService {
         else{
             language = languageRepository.findById(languageId);
             cache.put(languageId, language);
+        }
+        if(language.isEmpty()){
+            throw new BadRequestException("Language is empty");
         }
         if (language.isPresent()) {
             Language existingLanguage = language.get();

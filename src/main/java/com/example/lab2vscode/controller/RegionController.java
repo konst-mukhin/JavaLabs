@@ -13,46 +13,58 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.lab2vscode.dto.RegionDTO;
+import com.example.lab2vscode.exceptions.BadRequestException;
+import com.example.lab2vscode.exceptions.NotFoundException;
+import com.example.lab2vscode.exceptions.ServerException;
 import com.example.lab2vscode.model.Region;
 import com.example.lab2vscode.service.RegionService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 
 @RequestMapping("/region")
 @RestController
 @AllArgsConstructor
+@Tag(name = "Region", description = "Work with regions")
 public class RegionController {
     private RegionService regionService;
 
     @PostMapping("/create")
-    public Region createRegion(@Validated @RequestBody Region regionModel) {
+    @Operation(summary = "Create region", description = "Enable to create region")
+    public Region createRegion(@Validated @RequestBody Region regionModel) throws ServerException {
         return regionService.createRegion(regionModel);
     }
 
     @GetMapping("/all")
-    public List<RegionDTO> getAllRegions() {
+    @Operation(summary = "Get all regions", description = "Enable to get all regions")
+    public List<RegionDTO> getAllRegions() throws NotFoundException {
         return regionService.getAllRegions();
     }
     
     @GetMapping("/{regionId}")
-    public RegionDTO getRegionById(@PathVariable Integer regionId)
+    @Operation(summary = "Get region by id", description = "Enable to get region by id")
+    public RegionDTO getRegionById(@PathVariable Integer regionId) throws NotFoundException
     {
         return regionService.getRegionById(regionId);
     }
     
     @DeleteMapping("/all")
+    @Operation(summary = "Delete all regions", description = "Enable to delete all regions")
     public String deleteAllRegions() {
         regionService.deleteAllRegions();
         return "pusto";
     }
 
     @DeleteMapping("/{regionId}")
-    public void deleteRegion(@PathVariable Integer regionId) {
+    @Operation(summary = "Delete region by id", description = "Enable to delete region by id")
+    public void deleteRegion(@PathVariable Integer regionId) throws BadRequestException {
         regionService.deleteRegion(regionId);
     }
 
     @PutMapping("/{regionId}")
-    public RegionDTO updateRegion(@PathVariable Integer regionId, @RequestBody Region regionDetails) {
+    @Operation(summary = "Update region", description = "Enable to update region")
+    public RegionDTO updateRegion(@PathVariable Integer regionId, @RequestBody Region regionDetails) throws BadRequestException {
         return regionService.updateRegion(regionId, regionDetails);
     }
 }
