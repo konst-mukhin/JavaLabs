@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegionDTO {
-    private String name;
+public class RegionDto {
+  private String name;
 }

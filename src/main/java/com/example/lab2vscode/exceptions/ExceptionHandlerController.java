@@ -8,23 +8,26 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
-public class ExceptionHandlerController extends ResponseEntityExceptionHandler{
+public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorMessage> badRequestException(BadRequestException exception, WebRequest request){
-        ErrorMessage message = new ErrorMessage(exception.getMessage());
-        return new ResponseEntity<ErrorMessage>(message, HttpStatus.BAD_REQUEST);
-    }
+  @ExceptionHandler(BadRequestException.class)
+  public ResponseEntity<ErrorMessage> badRequestException(
+      BadRequestException exception, WebRequest request) {
+    ErrorMessage message = new ErrorMessage(exception.getMessage());
+    return new ResponseEntity<ErrorMessage>(message, HttpStatus.BAD_REQUEST);
+  }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorMessage> notFoundException(NotFoundException exception, WebRequest request){
-        ErrorMessage message = new ErrorMessage(exception.getMessage());
-        return new ResponseEntity<ErrorMessage>(message, HttpStatus.NOT_FOUND);
-    }
+  @ExceptionHandler(NotFoundException.class)
+  public ResponseEntity<ErrorMessage> notFoundException(
+      NotFoundException exception, WebRequest request) {
+    ErrorMessage message = new ErrorMessage(exception.getMessage());
+    return new ResponseEntity<ErrorMessage>(message, HttpStatus.NOT_FOUND);
+  }
 
-    @ExceptionHandler(ServerException.class)
-    public ResponseEntity<ErrorMessage> serverException(ServerException exception, WebRequest request){
-        ErrorMessage message = new ErrorMessage(exception.getMessage());
-        return new ResponseEntity<ErrorMessage>(message, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+  @ExceptionHandler(ServerException.class)
+  public ResponseEntity<ErrorMessage> serverException(
+      ServerException exception, WebRequest request) {
+    ErrorMessage message = new ErrorMessage(exception.getMessage());
+    return new ResponseEntity<ErrorMessage>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
 }
