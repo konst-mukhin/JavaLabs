@@ -2,18 +2,15 @@ package com.example.lab2vscode.service;
 
 import com.example.lab2vscode.cache.Cache;
 import com.example.lab2vscode.dto.CountryDto;
-import com.example.lab2vscode.dto.LanguageDto;
 import com.example.lab2vscode.exceptions.BadRequestException;
 import com.example.lab2vscode.exceptions.NotFoundException;
 import com.example.lab2vscode.exceptions.ServerException;
 import com.example.lab2vscode.model.Country;
 import com.example.lab2vscode.repository.CountryRepository;
 import jakarta.transaction.Transactional;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
