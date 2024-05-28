@@ -198,7 +198,7 @@ class CountryServiceTest {
   }
 
   @Test
-  void getCountryByNameExceptionTest() throws NotFoundException {
+  void getCountryByNameExceptionTest() {
     when(countryRepository.findByName(any(String.class))).thenReturn(Optional.empty());
 
     assertThrows(NotFoundException.class, () -> countryService.getCountryByName("name"));

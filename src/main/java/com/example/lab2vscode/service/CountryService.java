@@ -2,12 +2,15 @@ package com.example.lab2vscode.service;
 
 import com.example.lab2vscode.cache.Cache;
 import com.example.lab2vscode.dto.CountryDto;
+import com.example.lab2vscode.dto.LanguageDto;
 import com.example.lab2vscode.exceptions.BadRequestException;
 import com.example.lab2vscode.exceptions.NotFoundException;
 import com.example.lab2vscode.exceptions.ServerException;
 import com.example.lab2vscode.model.Country;
 import com.example.lab2vscode.repository.CountryRepository;
 import jakarta.transaction.Transactional;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,9 +40,7 @@ public class CountryService {
     if (countries.isEmpty()) {
       throw new NotFoundException("Countries list is empty");
     }
-    return countries.stream()
-        .map(country -> modelMapper.map(country, CountryDto.class))
-        .collect(Collectors.toList());
+    return Arrays.asList(modelMapper.map(countries, CountryDto[].class));
   }
 
   public CountryDto getCountryById(Integer countryId) throws NotFoundException {
