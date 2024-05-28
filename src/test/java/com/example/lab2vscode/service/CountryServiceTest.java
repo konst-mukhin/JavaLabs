@@ -32,7 +32,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 
 @ExtendWith(MockitoExtension.class)
-public class CountryServiceTest {
+class CountryServiceTest {
   @Mock private CountryRepository countryRepository;
 
   @Mock private Cache<Integer, Optional<Country>> cache;
@@ -87,7 +87,7 @@ public class CountryServiceTest {
   }
 
   @Test
-  void createCountryExceptionTest() throws ServerException {
+  void createCountryExceptionTest() {
     when(countryRepository.findById(1)).thenReturn(Optional.of(country));
 
     assertThrows(ServerException.class, () -> countryService.createCountry(country));
@@ -105,7 +105,7 @@ public class CountryServiceTest {
   }
 
   @Test
-  void getAllCountriesExceptionTest() throws NotFoundException {
+  void getAllCountriesExceptionTest() {
     when(countryRepository.findAll()).thenReturn(Arrays.asList());
 
     assertThrows(NotFoundException.class, () -> countryService.getAllCountries());
@@ -133,7 +133,7 @@ public class CountryServiceTest {
   }
 
   @Test
-  void getCountryByIdExceptionTest() throws NotFoundException {
+  void getCountryByIdExceptionTest() {
     when(cache.containsKey(1)).thenReturn(false);
     when(countryRepository.findById(1)).thenReturn(Optional.empty());
 
@@ -162,7 +162,7 @@ public class CountryServiceTest {
   }
 
   @Test
-  void updateCountryExceptionTest() throws BadRequestException {
+  void updateCountryExceptionTest() {
     when(countryRepository.findById(1)).thenReturn(Optional.empty());
 
     assertThrows(BadRequestException.class, () -> countryService.updateCountry(1, country));
@@ -178,7 +178,7 @@ public class CountryServiceTest {
   }
 
   @Test
-  void createCountriesExceptionTest() throws ServerException {
+  void createCountriesExceptionTest() {
     List<Country> countries = new ArrayList<>();
     countries.add(country);
     countries.add(country);

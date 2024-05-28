@@ -27,7 +27,7 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 
 @ExtendWith(MockitoExtension.class)
-public class RegionServiceTest {
+class RegionServiceTest {
 
   @Mock private RegionRepository regionRepository;
 
@@ -64,7 +64,7 @@ public class RegionServiceTest {
   }
 
   @Test
-  void createRegionExceptionTest() throws ServerException {
+  void createRegionExceptionTest() {
     when(regionRepository.findById(1)).thenReturn(Optional.of(region));
 
     assertThrows(ServerException.class, () -> regionService.createRegion(region));
@@ -82,7 +82,7 @@ public class RegionServiceTest {
   }
 
   @Test
-  void getAllRegionsExceptionTest() throws NotFoundException {
+  void getAllRegionsExceptionTest() {
     when(regionRepository.findAll()).thenReturn(Arrays.asList());
 
     assertThrows(NotFoundException.class, () -> regionService.getAllRegions());
@@ -110,7 +110,7 @@ public class RegionServiceTest {
   }
 
   @Test
-  void getRegionByIdExceptionTest() throws NotFoundException {
+  void getRegionByIdExceptionTest() {
     when(cache.containsKey(1)).thenReturn(false);
     when(regionRepository.findById(1)).thenReturn(Optional.empty());
 
@@ -139,7 +139,7 @@ public class RegionServiceTest {
   }
 
   @Test
-  void updateRegionExceptionTest() throws BadRequestException {
+  void updateRegionExceptionTest() {
     when(regionRepository.findById(1)).thenReturn(Optional.empty());
 
     assertThrows(BadRequestException.class, () -> regionService.updateRegion(1, region));

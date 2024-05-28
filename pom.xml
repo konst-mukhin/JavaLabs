@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.2.5</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>lab2vscode</artifactId>
@@ -83,7 +83,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.4.0</version> <!-- Укажите здесь нужную версию -->
+                <version>3.4.0</version>
             </plugin>
         </plugins>
     </reporting>
@@ -125,12 +125,6 @@
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
-                    <!-- <execution>
-                        <id>jacoco-dump</id>
-                        <goals>
-                            <goal>dump</goal>
-                        </goals>
-                    </execution> -->
                     <execution>
                         <id>jacoco-report</id>
                         <goals>

@@ -27,7 +27,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 
 @ExtendWith(MockitoExtension.class)
-public class LanguageServiceTest {
+class LanguageServiceTest {
+
   @Mock private LanguageRepository languageRepository;
 
   @Mock private Cache<Integer, Optional<Language>> cache;
@@ -63,7 +64,7 @@ public class LanguageServiceTest {
   }
 
   @Test
-  void createLanguageExceptionTest() throws ServerException {
+  void createLanguageExceptionTest() {
     when(languageRepository.findById(1)).thenReturn(Optional.of(language));
 
     assertThrows(ServerException.class, () -> languageService.createLanguage(language));
@@ -81,7 +82,7 @@ public class LanguageServiceTest {
   }
 
   @Test
-  void getAllRegionsExceptionTest() throws NotFoundException {
+  void getAllRegionsExceptionTest() {
     when(languageRepository.findAll()).thenReturn(Arrays.asList());
 
     assertThrows(NotFoundException.class, () -> languageService.getAllLanguages());
@@ -109,7 +110,7 @@ public class LanguageServiceTest {
   }
 
   @Test
-  void getLanguageByIdExceptionTest() throws NotFoundException {
+  void getLanguageByIdExceptionTest() {
     when(cache.containsKey(1)).thenReturn(false);
     when(languageRepository.findById(1)).thenReturn(Optional.empty());
 
@@ -138,7 +139,7 @@ public class LanguageServiceTest {
   }
 
   @Test
-  void updateLanguageExceptionTest() throws BadRequestException {
+  void updateLanguageExceptionTest() {
     when(languageRepository.findById(1)).thenReturn(Optional.empty());
 
     assertThrows(BadRequestException.class, () -> languageService.updateLanguage(1, language));

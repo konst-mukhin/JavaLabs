@@ -71,7 +71,7 @@ public class CountryService {
 
   public void deleteRegionFromCountry(Integer countryId) throws BadRequestException {
     if (countryRepository.findById(countryId).isEmpty()) {
-      throw new BadRequestException("No country with this id");
+      throw new BadRequestException("Wrong country with this id");
     }
     countryRepository.deleteRegionFromCountry(countryId);
   }

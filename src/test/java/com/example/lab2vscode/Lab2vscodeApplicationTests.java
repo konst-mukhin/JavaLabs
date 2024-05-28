@@ -12,9 +12,4 @@ class Lab2vscodeApplicationTests {
   Lab2vscodeApplicationTests(ApplicationContext context) {
     this.context = context;
   }
-
-  // @Test
-  // void contextLoads() {
-  //   assertNotNull(context);
-  // }
 }

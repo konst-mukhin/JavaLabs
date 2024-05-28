@@ -22,7 +22,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class RegionControllerTest {
+class RegionControllerTest {
 
   @Mock private RegionService regionService;
 
