@@ -67,7 +67,7 @@ public class RegionService {
     regionRepository.deleteById(regionId);
   }
 
-  public RegionDto updateRegion(Integer regionId, Region regionDetails) throws BadRequestException {
+  public Region updateRegion(Integer regionId, Region regionDetails) throws BadRequestException {
     Optional<Region> region;
     if (cache.containsKey(regionId)) {
       region = cache.get(regionId);
@@ -82,7 +82,7 @@ public class RegionService {
       Region existingRegion = region.get();
       existingRegion.setName(regionDetails.getName());
       regionRepository.save(existingRegion);
-      return modelMapper.map(existingRegion, RegionDto.class);
+      return existingRegion;
     }
     return null;
   }

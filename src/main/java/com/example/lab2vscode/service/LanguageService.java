@@ -5,9 +5,7 @@ import com.example.lab2vscode.dto.LanguageDto;
 import com.example.lab2vscode.exceptions.BadRequestException;
 import com.example.lab2vscode.exceptions.NotFoundException;
 import com.example.lab2vscode.exceptions.ServerException;
-import com.example.lab2vscode.model.Country;
 import com.example.lab2vscode.model.Language;
-import com.example.lab2vscode.repository.CountryRepository;
 import com.example.lab2vscode.repository.LanguageRepository;
 import java.util.Arrays;
 import java.util.List;
@@ -20,7 +18,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class LanguageService {
   private LanguageRepository languageRepository;
-  private CountryRepository countryRepository;
   private Cache<Integer, Optional<Language>> cache;
   private ModelMapper modelMapper;
 
@@ -70,22 +67,7 @@ public class LanguageService {
     languageRepository.deleteById(languageId);
   }
 
-  public void deleteLanguageFromCountry(Integer countryId, Integer languageId)
-      throws BadRequestException {
-    if (countryRepository.findById(countryId).isEmpty()) {
-      throw new BadRequestException("Wrong country id");
-    }
-    if (languageRepository.findById(languageId).isEmpty()) {
-      throw new BadRequestException("Wrong language id");
-    }
-    Optional<Country> country = countryRepository.findById(countryId);
-    if (country.isPresent()) {
-      country.get().removeLanguage(languageId);
-      countryRepository.save(country.get());
-    }
-  }
-
-  public LanguageDto updateLanguage(Integer languageId, Language languageDetails)
+  public Language updateLanguage(Integer languageId, Language languageDetails)
       throws BadRequestException {
     Optional<Language> language;
     if (cache.containsKey(languageId)) {
@@ -101,7 +83,7 @@ public class LanguageService {
       Language existingLanguage = language.get();
       existingLanguage.setName(languageDetails.getName());
       languageRepository.save(existingLanguage);
-      return modelMapper.map(existingLanguage, LanguageDto.class);
+      return existingLanguage;
     }
     return null;
   }

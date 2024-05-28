@@ -8,9 +8,9 @@ import com.example.lab2vscode.exceptions.ServerException;
 import com.example.lab2vscode.model.Country;
 import com.example.lab2vscode.repository.CountryRepository;
 import jakarta.transaction.Transactional;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -37,7 +37,9 @@ public class CountryService {
     if (countries.isEmpty()) {
       throw new NotFoundException("Countries list is empty");
     }
-    return Arrays.asList(modelMapper.map(countries, CountryDto[].class));
+    return countries.stream()
+        .map(country -> modelMapper.map(country, CountryDto.class))
+        .collect(Collectors.toList());
   }
 
   public CountryDto getCountryById(Integer countryId) throws NotFoundException {
@@ -54,19 +56,17 @@ public class CountryService {
     return modelMapper.map(country, CountryDto.class);
   }
 
+  public Country getCountryByName(String name) throws NotFoundException {
+    Optional<Country> country = countryRepository.findByName(name);
+    if (country.isEmpty()) {
+      throw new NotFoundException("No country with this id");
+    }
+    return country.get();
+  }
+
   public void deleteAllCountries() {
     cache.clear();
     countryRepository.deleteAll();
-  }
-
-  public void deleteCountry(Integer countryId) throws BadRequestException {
-    if (countryRepository.findById(countryId).isEmpty()) {
-      throw new BadRequestException("Wrong id");
-    }
-    if (cache.containsKey(countryId)) {
-      cache.remove(countryId);
-    }
-    countryRepository.deleteById(countryId);
   }
 
   public void deleteRegionFromCountry(Integer countryId) throws BadRequestException {
@@ -76,7 +76,7 @@ public class CountryService {
     countryRepository.deleteRegionFromCountry(countryId);
   }
 
-  public CountryDto updateCountry(Integer countryId, Country countryDetails)
+  public Country updateCountry(Integer countryId, Country countryDetails)
       throws BadRequestException {
     Optional<Country> country;
     if (cache.containsKey(countryId)) {
@@ -94,8 +94,21 @@ public class CountryService {
       existingCountry.setCapital(countryDetails.getCapital());
       existingCountry.setPopulation(countryDetails.getPopulation());
       countryRepository.save(existingCountry);
-      return modelMapper.map(existingCountry, CountryDto.class);
+      return existingCountry;
     }
     return null;
+  }
+
+  public List<Country> createCountries(List<Country> countries) throws ServerException {
+    List<Country> presentCountries = countryRepository.findAll();
+    for (Country presentCountry : presentCountries) {
+      for (Country country : countries) {
+        if (presentCountry.getCountryId().equals(country.getCountryId())) {
+          throw new ServerException("Wrong id");
+        }
+      }
+    }
+    countryRepository.saveAll(countries);
+    return countries;
   }
 }
