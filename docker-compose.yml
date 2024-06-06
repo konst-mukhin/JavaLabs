@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: 'postgres:10'
+    container_name: 'java-postgres'
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=$USER
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=jdbc:postgresql://localhost:5432/lab2db
+    networks:
+      - app-network
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build: .
+    container_name: 'my-spring-boot-app'
+    ports:
+      - 8080:8080
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
